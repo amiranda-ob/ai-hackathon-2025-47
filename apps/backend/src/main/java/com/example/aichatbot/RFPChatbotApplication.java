@@ -4,9 +4,9 @@
  import org.springframework.boot.autoconfigure.SpringBootApplication;
 
  @SpringBootApplication
- public class AiChatbotApplication {
+ public class RFPChatbotApplication {
 
      public static void main(String[] args) {
-         SpringApplication.run(AiChatbotApplication.class, args);
+         SpringApplication.run(RFPChatbotApplication.class, args);
      }
  }

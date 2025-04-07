@@ -1,7 +1,9 @@
 package com.example.aichatbot.config;
 
 import org.springframework.ai.chat.ChatClient;
+import org.springframework.ai.embedding.EmbeddingClient;
 import org.springframework.ai.ollama.OllamaChatClient;
+import org.springframework.ai.ollama.OllamaEmbeddingClient;
 import org.springframework.ai.ollama.api.OllamaApi;
 import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,10 +20,19 @@ public class OllamaConfig {
     private String model;
 
     @Bean
-    public ChatClient chatClient() {
-        OllamaApi ollamaApi = new OllamaApi(baseUrl);
+    public OllamaApi ollamaApi() {
+        return new OllamaApi(baseUrl);
+    }
+
+    @Bean
+    public ChatClient chatClient(OllamaApi ollamaApi) {
         OllamaChatClient client = new OllamaChatClient(ollamaApi);
         client.withDefaultOptions(OllamaOptions.create().withModel(model));
         return client;
+    }
+
+    @Bean
+    public EmbeddingClient embeddingClient(OllamaApi ollamaApi) {
+        return new OllamaEmbeddingClient(ollamaApi);
     }
 }

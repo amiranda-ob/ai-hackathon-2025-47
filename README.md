@@ -70,6 +70,13 @@ ollama ps
 
 This command will show you the models that are currently running. The application is configured to use the `llama2` model by default.
 
+### Qdrant (Vector Database)
+The application uses Qdrant as a vector database for semantic search capabilities. You need to have Qdrant running locally. You can start it using Docker:
+
+```bash
+docker run -d -p 6334:6334 -p 6333:6333 qdrant/qdrant
+```
+
 ## Setup
 
 ### Backend (Spring Boot)
@@ -110,12 +117,51 @@ The application will run on `http://localhost:8080`
 
 The application will run on `http://localhost:5173`
 
+## Vector Search API
+
+The application provides the following endpoints for vector search functionality:
+
+### Add Document
+```bash
+POST /api/vector/documents
+Content-Type: application/json
+
+{
+    "content": "Your document text here",
+    "source": "document_source",
+    "type": "document_type"
+}
+```
+
+### Search Documents
+```bash
+GET /api/vector/search?query=your_search_query&limit=5
+```
+
+### Delete Document
+```bash
+DELETE /api/vector/documents/{document_id}
+```
+
 ## Project Structure
 
 ```
 .
 ├── apps/
 │   ├── backend/           # Spring Boot application
+│   │   ├── src/
+│   │   │   ├── main/
+│   │   │   │   ├── java/
+│   │   │   │   │   └── com/example/aichatbot/
+│   │   │   │   │       ├── config/          # Configuration classes
+│   │   │   │   │       ├── controller/      # REST controllers
+│   │   │   │   │       ├── model/           # Data models
+│   │   │   │   │       ├── service/         # Business logic
+│   │   │   │   │       └── exception/       # Exception handlers
+│   │   │   │   └── resources/
+│   │   │   │       └── application.yml      # Application configuration
+│   │   │   └── test/                        # Test classes
+│   │   └── pom.xml                          # Maven dependencies
 │   └── frontend/          # React application
 └── README.md
 ```
@@ -125,4 +171,6 @@ The application will run on `http://localhost:5173`
 - Backend: Spring Boot, Spring AI
 - Frontend: React, TypeScript, Tailwind CSS
 - Database: SQLite
-- AI Model: Llama2 (via Ollama) 
+- Vector Database: Qdrant
+- AI Model: Llama2 (via Ollama)
+- Vector Search: Spring AI Vector Store 

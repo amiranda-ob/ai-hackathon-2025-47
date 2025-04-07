@@ -42,16 +42,28 @@
         
         <dependency>
             <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-core</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-ollama</artifactId>
             <version>${spring-ai.version}</version>
         </dependency>
         
+        <!-- Vector Store Dependencies -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-qdrant</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -69,6 +81,7 @@
             <artifactId>poi-ooxml</artifactId>
             <version>${apache-poi.version}</version>
         </dependency>
+
     </dependencies>
     
     <build>

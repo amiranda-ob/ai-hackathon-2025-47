@@ -4,8 +4,17 @@ spring:
   ai:
     ollama:
       base-url: http://localhost:11434
-      model: mistral
-      #model: llama2
+      model: llama3.1
+      embeddings:
+        model: llama3.1
+    qdrant:
+      url: localhost
+      port: 6334
+      collection-name: documents
+      dimension: 384
+      similarity: cosine
+      score-threshold: 0.7
+      top-k: 5
 
 server:
   port: 8080
