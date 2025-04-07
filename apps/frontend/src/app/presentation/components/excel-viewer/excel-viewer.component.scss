@@ -1,0 +1,42 @@
+.excel-viewer-container {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1rem;
+}
+
+.excel-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th.mat-header-cell {
+  background-color: #f5f5f5;
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  position: relative;
+  
+  &:hover {
+    background-color: #e0e0e0;
+  }
+
+  &.question-column {
+    border: 2px solid #ffd700;
+  }
+
+  &.answer-column {
+    border: 2px solid #9370db;
+  }
+}
+
+td.mat-cell {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.no-file-message {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+} 

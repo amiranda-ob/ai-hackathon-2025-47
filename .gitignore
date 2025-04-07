@@ -45,3 +45,4 @@ out-tsc/
 # OS specific
 .DS_Store
 Thumbs.db 
+.angular
