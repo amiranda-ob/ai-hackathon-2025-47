@@ -1,39 +1,56 @@
 package com.example.aichatbot.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.ai.chat.ChatClient;
 import org.springframework.ai.chat.ChatResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.ai.chat.Generation;
+import org.springframework.ai.chat.prompt.Prompt;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.List;
 
-@SpringBootTest
-@ActiveProfiles("test")
-public class OllamaChatClientTest {
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
-    @Autowired
-    private OllamaChatClient chatClient;
+class OllamaChatClientTest {
 
-    @Test
-    public void testGenerateWithValidPrompt() {
-        // This test will only pass if OPENAI_API_KEY is set
-        ChatResponse response = chatClient.generate("Hello, how are you?");
-        assertNotNull(response);
+    @Mock
+    private ChatClient chatClient;
+
+    private OllamaChatClient ollamaChatClient;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        ollamaChatClient = new OllamaChatClient(chatClient, "llama2");
     }
 
     @Test
-    public void testGenerateWithEmptyPrompt() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            chatClient.generate("");
-        });
+    void testGenerateResponse() {
+        String userMessage = "Hola";
+        String expectedResponse = "¡Hola! ¿En qué puedo ayudarte?";
+
+        Generation generation = new Generation(expectedResponse);
+        ChatResponse mockResponse = new ChatResponse(List.of(generation));
+
+        when(chatClient.call(any(Prompt.class))).thenReturn(mockResponse);
+
+        String response = ollamaChatClient.generateResponse(userMessage);
+        assertEquals(expectedResponse, response);
     }
 
     @Test
-    public void testGenerateWithNullPrompt() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            chatClient.generate(null);
-        });
+    void testEmptyMessage() {
+        String response = ollamaChatClient.generateResponse("");
+        assertEquals("Lo siento, no puedo procesar un mensaje vacío.", response);
+    }
+
+    @Test
+    void testNullMessage() {
+        String response = ollamaChatClient.generateResponse(null);
+        assertEquals("Lo siento, no puedo procesar un mensaje vacío.", response);
     }
 }

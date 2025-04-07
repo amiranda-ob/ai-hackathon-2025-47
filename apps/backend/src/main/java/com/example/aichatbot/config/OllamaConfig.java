@@ -3,6 +3,7 @@ package com.example.aichatbot.config;
 import org.springframework.ai.chat.ChatClient;
 import org.springframework.ai.ollama.OllamaChatClient;
 import org.springframework.ai.ollama.api.OllamaApi;
+import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,8 @@ public class OllamaConfig {
     @Bean
     public ChatClient chatClient() {
         OllamaApi ollamaApi = new OllamaApi(baseUrl);
-        return new OllamaChatClient(ollamaApi);
+        OllamaChatClient client = new OllamaChatClient(ollamaApi);
+        client.withDefaultOptions(OllamaOptions.create().withModel(model));
+        return client;
     }
 }

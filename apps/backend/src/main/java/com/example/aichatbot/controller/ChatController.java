@@ -13,12 +13,7 @@ import com.example.aichatbot.service.OptionSelectionService;
 import com.example.aichatbot.service.RowInteractionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -34,7 +29,7 @@ public class ChatController {
 
     @Autowired
     public ChatController(ExcelService excelService, RowInteractionService rowInteractionService,
-                          OptionSelectionService optionSelectionService, OllamaChatClient chatClient) {
+            OptionSelectionService optionSelectionService, OllamaChatClient chatClient) {
         this.excelService = excelService;
         this.rowInteractionService = rowInteractionService;
         this.optionSelectionService = optionSelectionService;
@@ -43,7 +38,7 @@ public class ChatController {
 
     @PostMapping("/upload")
     public ResponseEntity<ExcelUploadRequest> uploadExcel(@RequestParam("file") MultipartFile file,
-                                                          @RequestBody ExcelUploadRequestDTO requestDTO) {
+            @RequestBody ExcelUploadRequestDTO requestDTO) {
         try {
             List<ExcelColumnInfo> columnInfo = requestDTO.getColumnInfo();
             ExcelUploadRequest response = excelService.processExcelFile(file, columnInfo);
@@ -65,7 +60,7 @@ public class ChatController {
 
     @PostMapping("/row/{rowIndex}")
     public ResponseEntity<Void> selectOption(@RequestBody OptionSelectionRequest request,
-                                             @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") MultipartFile file) {
         try {
             optionSelectionService.persistOptionSelection(request, file);
             return ResponseEntity.ok().build();
@@ -75,10 +70,14 @@ public class ChatController {
     }
 
     @PostMapping
-    public ResponseEntity<ChatResponse> chat(@RequestBody String message) {
-        org.springframework.ai.chat.ChatResponse response = chatClient.generate(message);
-        String content = response.getResult().getOutput().getContent();
+    public ResponseEntity<String> chat(@RequestBody String message) {
+        String response = chatClient.generateResponse(message);
+        return ResponseEntity.ok(response);
+    }
 
-        return ResponseEntity.ok(new ChatResponse(content, "llama2", System.currentTimeMillis()));
+    @DeleteMapping("/history")
+    public ResponseEntity<Void> clearHistory() {
+        chatClient.clearHistory();
+        return ResponseEntity.ok().build();
     }
 }

@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @WebMvcTest(ChatController.class)
 public class ChatControllerTest {
@@ -34,21 +35,16 @@ public class ChatControllerTest {
 
     @Test
     public void testChatEndpoint() throws Exception {
-        // Prepare request
-        ChatRequest request = new ChatRequest("Hello, how are you?", "gpt-3.5-turbo");
+        String testMessage = "Hola";
+        String expectedResponse = "¡Hola! ¿En qué puedo ayudarte?";
 
-        // Mock service response
-        when(chatClient.generate(anyString())).thenReturn(new ChatResponse(
-                List.of(new Generation("I'm doing well, thank you for asking!"))));
+        when(chatClient.generateResponse(anyString())).thenReturn(expectedResponse);
 
-        // Perform request
         mockMvc.perform(post("/api/chat")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(MediaType.TEXT_PLAIN)
+                .content(testMessage))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("I'm doing well, thank you for asking!"))
-                .andExpect(jsonPath("$.model").value("gpt-3.5-turbo"))
-                .andExpect(jsonPath("$.timestamp").exists());
+                .andExpect(content().string(expectedResponse));
     }
 
     @Test
@@ -58,8 +54,8 @@ public class ChatControllerTest {
 
         // Perform request
         mockMvc.perform(post("/api/chat")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 }
