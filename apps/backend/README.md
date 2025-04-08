@@ -1,1 +1,46 @@
-****Bases de Datos de OneBox**\n=====================================\n\nEn OneBox se utilizan varias bases de datos para almacenar y gestionar la información de la plataforma. A continuación, se presentan los detalles de cada una de ellas:\n\n### MySQL (RDS)\n\n* **Descripción**: Contiene toda la información de configuración de entidades de la plataforma.\n* **Información Almacenada**:\n + Eventos\n + Sesiones\n + Recintos\n + Canales\n + Entidades\n + Usuarios\n* **Servicio utilizado**: AWS RDS con multiAZ configurado.\n\n### Oracle (RDS)\n\n* **Descripción**: Contiene la representación física de estado de localidades por cada sesión.\n* **Información Almacenada**:\n + Estados de localidades\n + Operaciones relacionadas en caso de venta\n* **Servicio utilizado**: AWS RDS con multiAZ configurado.\n\n### Couchbase\n\n* **Descripción**: Es una base de datos no relacional formada por un cluster de 5 instancias.\n* **Información Almacenada**:\n + Órdenes de venta para hacer búsquedas complejas y rápidas\n + Información postventa\n* **Servicio utilizado**: Un cluster de 5 instancias con 3 de datos y 2 de query/index.\n\n### Elasticsearch\n\n* **Descripción**: Es un motor de búsqueda y análisis de datos.\n* **Información Almacenada**:\n + Órdenes de venta para hacer búsquedas complejas y rápidas\n + Información postventa\n* **Servicio utilizado**: Un cluster de servidores con múltiples nodos.\n\nNota: La información presentada es un resumen de lo proporcionado en el contexto. Si necesitas más detalles o precisión, te recomiendo consultar directamente la documentación oficial de OneBox o comunicarte con su equipo de soporte.
+**# Backend - Spring Boot
+
+This is the backend application for the AI Hackathon 2025 project, developed with Spring Boot and Spring AI.
+
+## Requirements
+
+- Java 17+
+- Maven 3.8+
+
+## Installation
+
+```bash
+# Build the project
+./mvnw clean install
+
+# Run the application
+./mvnw spring-boot:run
+```
+
+## Project Structure
+
+```
+backend/
+├── src/                    # Source code
+│   ├── main/               # Main code
+│   │   ├── java/           # Java code
+│   │   └── resources/      # Resources (configuration, etc.)
+│   └── test/               # Tests
+└── pom.xml                 # Maven configuration
+```
+
+## REST API
+
+The application exposes the following endpoints:
+
+- `POST /api/chat`: Endpoint to interact with the chatbot
+
+## Configuration
+
+The application configuration is located in `src/main/resources/application.yml`.
+
+To configure the OpenAI API key, set the `OPENAI_API_KEY` environment variable:
+
+```bash
+export OPENAI_API_KEY=your-api-key
+```** 
