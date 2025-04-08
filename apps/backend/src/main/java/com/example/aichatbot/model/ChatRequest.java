@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ChatRequest {
     private String message;
-    private String model;
+    private AIType aiType;
 }

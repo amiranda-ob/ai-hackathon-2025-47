@@ -1,5 +1,6 @@
 package com.example.aichatbot.controller;
 
+import com.example.aichatbot.model.AIType;
 import com.example.aichatbot.model.ExcelColumnInfo;
 import com.example.aichatbot.model.ExcelUploadRequest;
 import com.example.aichatbot.model.ExcelUploadRequestDTO;
@@ -8,13 +9,11 @@ import com.example.aichatbot.model.RowInteractionRequest;
 import com.example.aichatbot.model.RowInteractionResponse;
 import com.example.aichatbot.service.ChatService;
 import com.example.aichatbot.service.ExcelService;
-import com.example.aichatbot.service.OllamaChatClient;
 import com.example.aichatbot.service.OptionSelectionService;
 import com.example.aichatbot.service.RowInteractionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,16 +32,14 @@ public class ChatController {
     private final ExcelService excelService;
     private final RowInteractionService rowInteractionService;
     private final OptionSelectionService optionSelectionService;
-    private final OllamaChatClient chatClient;
     private final ChatService chatService;
 
     @Autowired
     public ChatController(ExcelService excelService, RowInteractionService rowInteractionService,
-                          OptionSelectionService optionSelectionService, OllamaChatClient chatClient, ChatService chatService) {
+                          OptionSelectionService optionSelectionService, ChatService chatService) {
         this.excelService = excelService;
         this.rowInteractionService = rowInteractionService;
         this.optionSelectionService = optionSelectionService;
-        this.chatClient = chatClient;
         this.chatService = chatService;
     }
 
@@ -81,19 +78,15 @@ public class ChatController {
 
     @PostMapping
     public ResponseEntity<ChatResponse> chat(@RequestBody ChatRequest request) {
-        String response = chatService.chat(request.message());
-        return ResponseEntity.ok(new ChatResponse(response));
+        AIType aiType = request.type() != null ? request.type() : AIType.OLLAMA;
+        String response = chatService.chat(request.message(), aiType);
+        return ResponseEntity.ok(new ChatResponse(response, aiType.name(), System.currentTimeMillis()));
     }
 
-    @DeleteMapping("/history")
-    public ResponseEntity<Void> clearHistory() {
-        chatClient.clearHistory();
-        return ResponseEntity.ok().build();
-    }
 }
 
-record ChatRequest(String message) {
+record ChatRequest(String message, AIType type) {
 }
 
-record ChatResponse(String response) {
+record ChatResponse(String response, String aiType, long timestamp) {
 }

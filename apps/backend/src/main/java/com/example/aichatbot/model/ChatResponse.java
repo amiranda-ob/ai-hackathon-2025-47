@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ChatResponse {
     private String message;
-    private String model;
+    private String aiType;
     private long timestamp;
 }
