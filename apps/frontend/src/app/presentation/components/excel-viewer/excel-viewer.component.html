@@ -18,8 +18,10 @@
                             [attr.aria-label]="'Select column ' + column + ' as ' + (getColumnClass(i) === 'question-column' ? 'questions' : getColumnClass(i) === 'answer-column' ? 'answers' : '')">
                             {{column}}
                         </th>
-                        <td mat-cell *matCellDef="let row"
-                            [class]="getColumnClass(i)">
+                        <td mat-cell *matCellDef="let row; let rowIndex = index"
+                            [class]="getColumnClass(i)"
+                            [class.unreliable-cell]="isCellUnreliable(rowIndex, i)"
+                            (click)="onCellClick($event, rowIndex, i)">
                             {{row[column]}}
                         </td>
                     </ng-container>

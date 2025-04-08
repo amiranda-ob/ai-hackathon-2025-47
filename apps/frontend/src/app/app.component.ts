@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -6,7 +6,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ExcelViewerComponent } from './presentation/components/excel-viewer/excel-viewer.component';
 import { ExcelService } from './domain/excel/services/excel.service';
 import { ExcelApiService } from './infrastructure/api/excel-api.service';
-import { ExcelFile, CategoryMapping } from './domain/excel/models/excel.model';
+import { ExcelFile, CategoryMapping, UnreliableCell } from './domain/excel/models/excel.model';
 
 @Component({
   selector: 'app-root',
@@ -22,13 +22,13 @@ import { ExcelFile, CategoryMapping } from './domain/excel/models/excel.model';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  private excelService = inject(ExcelService);
+  private excelApiService = inject(ExcelApiService);
+
   excelFile: ExcelFile | null = null;
   categoryMapping: CategoryMapping | null = null;
 
-  constructor(
-    private excelService: ExcelService,
-    private excelApiService: ExcelApiService
-  ) {
+  constructor() {
     this.excelService.getExcelFile().subscribe(file => {
       this.excelFile = file;
     });
@@ -56,9 +56,24 @@ export class AppComponent {
       ...(this.categoryMapping || {
         questionColumnIndex: -1,
         answerColumnIndex: -1,
-        sheetIndex: this.excelFile.activeSheet
+        sheetIndex: this.excelFile.activeSheet,
+        unreliableCells: []
       }),
       [event.category === 'questions' ? 'questionColumnIndex' : 'answerColumnIndex']: event.columnIndex
+    };
+
+    this.excelService.setCategoryMapping(newMapping);
+  }
+
+  onUnreliableCellMarked(unreliableCell: UnreliableCell): void {
+    if (!this.categoryMapping) return;
+
+    const newMapping: CategoryMapping = {
+      ...this.categoryMapping,
+      unreliableCells: [
+        ...this.categoryMapping.unreliableCells,
+        unreliableCell
+      ]
     };
 
     this.excelService.setCategoryMapping(newMapping);

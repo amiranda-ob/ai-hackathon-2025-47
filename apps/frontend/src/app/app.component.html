@@ -31,7 +31,8 @@
                         <app-excel-viewer
                             [excelFile]="sheet"
                             [categoryMapping]="categoryMapping"
-                            (columnSelected)="onColumnSelected($event)">
+                            (columnSelected)="onColumnSelected($event)"
+                            (unreliableCellMarked)="onUnreliableCellMarked($event)">
                         </app-excel-viewer>
                     </mat-tab>
                 }

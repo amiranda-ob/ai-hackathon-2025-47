@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Mark Cell as Unreliable</h2>
+<mat-dialog-content>
+    <p>Please provide a reason why this cell is unreliable:</p>
+    <mat-form-field appearance="outline" class="reason-input">
+        <mat-label>Reason</mat-label>
+        <textarea matInput [(ngModel)]="reason" rows="3"></textarea>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-raised-button color="warn" (click)="dialogRef.close(reason)">Mark as Unreliable</button>
+</mat-dialog-actions>

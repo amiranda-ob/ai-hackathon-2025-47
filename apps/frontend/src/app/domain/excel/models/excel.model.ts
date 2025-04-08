@@ -16,8 +16,14 @@ export interface ColumnCategory {
   sheetIndex: number;
 }
 
+export interface UnreliableCell {
+  rowIndex: number;
+  reason?: string;
+}
+
 export interface CategoryMapping {
   questionColumnIndex: number;
   answerColumnIndex: number;
   sheetIndex: number;
+  unreliableCells: UnreliableCell[];
 } 
