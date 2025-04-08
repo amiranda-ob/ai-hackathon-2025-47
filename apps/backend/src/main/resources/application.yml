@@ -8,7 +8,7 @@ spring:
       embeddings:
         model: llama3.1
     openai:
-      api-key: ${OPENAI_API_KEY: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}
+      api-key: ${OPENAI_API_KEY}
       model: gpt-3.5-turbo
       temperature: 0.7
       max-tokens: 1000
