@@ -1,12 +1,13 @@
 .excel-viewer-container {
   width: 100%;
-  overflow-x: auto;
-  margin: 1rem;
+  overflow: auto;
+  max-height: calc(100vh - 200px);
 }
 
 .excel-table {
   width: 100%;
   border-collapse: collapse;
+  position: relative;
 }
 
 th.mat-header-cell {
@@ -33,6 +34,7 @@ th.mat-header-cell {
 td.mat-cell {
   padding: 8px;
   border: 1px solid #ddd;
+  background-color: white;
 }
 
 .no-file-message {

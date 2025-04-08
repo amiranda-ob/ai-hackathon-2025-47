@@ -1,7 +1,8 @@
 export interface ExcelSheet {
   name: string;
-  data: string[][];
+  data: (string | number)[][];
   headers: string[];
+  showRowNumbers: boolean;
 }
 
 export interface ExcelFile {
