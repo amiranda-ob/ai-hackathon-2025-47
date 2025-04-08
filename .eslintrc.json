@@ -1,0 +1,27 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx", "@angular-eslint"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "plugin:@nx/typescript",
+        "plugin:@angular-eslint/recommended"
+      ],
+      "rules": {
+        "no-empty-function": ["warn", {
+          "allow": []
+        }],
+        "@typescript-eslint/no-empty-function": ["warn", {
+          "allow": []
+        }]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {}
+    }
+  ]
+} 

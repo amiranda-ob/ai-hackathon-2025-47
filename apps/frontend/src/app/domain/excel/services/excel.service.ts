@@ -10,8 +10,6 @@ export class ExcelService {
   private excelFileSubject = new BehaviorSubject<ExcelFile | null>(null);
   private categoryMappingSubject = new BehaviorSubject<CategoryMapping | null>(null);
 
-  constructor() {}
-
   async readExcelFile(file: File): Promise<void> {
     try {
       const arrayBuffer = await file.arrayBuffer();
