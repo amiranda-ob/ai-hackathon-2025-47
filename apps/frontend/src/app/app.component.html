@@ -1,16 +1,27 @@
 <div class="app-container">
-    <mat-card class="file-upload-card">
-        <mat-card-header>
-            <mat-card-title>Excel File Upload</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <input type="file"
-                (change)="onFileSelected($event)"
-                accept=".xlsx,.xls"
-                aria-label="Select Excel file"
-                class="file-input">
-        </mat-card-content>
-    </mat-card>
+    <div class="header-section">
+        <mat-card class="file-upload-card">
+            <mat-card-header>
+                <mat-card-title>Excel File Upload</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <input type="file"
+                    (change)="onFileSelected($event)"
+                    accept=".xlsx,.xls"
+                    aria-label="Select Excel file"
+                    class="file-input">
+            </mat-card-content>
+        </mat-card>
+
+        <div class="upload-mapping-section">
+            <button mat-raised-button
+                color="primary"
+                (click)="uploadMapping()"
+                [disabled]="!categoryMapping?.questionColumnIndex || !categoryMapping?.answerColumnIndex">
+                Upload Mapping
+            </button>
+        </div>
+    </div>
 
     @if (excelFile) {
         <div class="excel-content">
@@ -25,15 +36,6 @@
                     </mat-tab>
                 }
             </mat-tab-group>
-
-            <div class="actions">
-                <button mat-raised-button
-                    color="primary"
-                    (click)="uploadMapping()"
-                    [disabled]="!categoryMapping?.questionColumnIndex || !categoryMapping?.answerColumnIndex">
-                    Upload Mapping
-                </button>
-            </div>
         </div>
     }
 </div>

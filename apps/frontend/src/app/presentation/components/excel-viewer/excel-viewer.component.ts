@@ -35,10 +35,8 @@ export class ExcelViewerComponent {
     constructor() {
         effect(() => {
             const file = this.excelFile();
-            console.log('=> file', file);
             if (file) {
                 this.displayedColumns = file.headers;
-                console.log('=> displayedColumns', this.displayedColumns);
                 this.dataSource = file.data.map(row => {
                     const obj: any = {};
                     file.headers.forEach((header, index) => {
