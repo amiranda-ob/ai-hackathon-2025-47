@@ -43,6 +43,13 @@ public class ChatController {
         this.chatService = chatService;
     }
 
+    @PostMapping
+    public ResponseEntity<ChatResponse> chat(@RequestBody ChatRequest request) {
+        AIType aiType = request.type() != null ? request.type() : AIType.OLLAMA;
+        String response = chatService.chat(request.message(), aiType);
+        return ResponseEntity.ok(new ChatResponse(response, aiType.name(), System.currentTimeMillis()));
+    }
+
     @PostMapping("/upload")
     public ResponseEntity<ExcelUploadRequest> uploadExcel(@RequestParam("file") MultipartFile file,
                                                           @RequestBody ExcelUploadRequestDTO requestDTO) {
@@ -76,17 +83,12 @@ public class ChatController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<ChatResponse> chat(@RequestBody ChatRequest request) {
-        AIType aiType = request.type() != null ? request.type() : AIType.OLLAMA;
-        String response = chatService.chat(request.message(), aiType);
-        return ResponseEntity.ok(new ChatResponse(response, aiType.name(), System.currentTimeMillis()));
+    record ChatRequest(String message, AIType type) {
+    }
+
+    record ChatResponse(String response, String aiType, long timestamp) {
     }
 
 }
 
-record ChatRequest(String message, AIType type) {
-}
 
-record ChatResponse(String response, String aiType, long timestamp) {
-}
