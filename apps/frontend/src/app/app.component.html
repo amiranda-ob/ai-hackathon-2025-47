@@ -1,0 +1,39 @@
+<div class="app-container">
+    <mat-card class="file-upload-card">
+        <mat-card-header>
+            <mat-card-title>Excel File Upload</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <input type="file"
+                (change)="onFileSelected($event)"
+                accept=".xlsx,.xls"
+                aria-label="Select Excel file"
+                class="file-input">
+        </mat-card-content>
+    </mat-card>
+
+    @if (excelFile) {
+        <div class="excel-content">
+            <mat-tab-group (selectedIndexChange)="onSheetChange($event)">
+                @for (sheet of excelFile.sheets; track sheet.name; let i = $index) {
+                    <mat-tab [label]="sheet.name">
+                        <app-excel-viewer
+                            [excelFile]="sheet"
+                            [categoryMapping]="categoryMapping"
+                            (columnSelected)="onColumnSelected($event)">
+                        </app-excel-viewer>
+                    </mat-tab>
+                }
+            </mat-tab-group>
+
+            <div class="actions">
+                <button mat-raised-button
+                    color="primary"
+                    (click)="uploadMapping()"
+                    [disabled]="!categoryMapping?.questionColumnIndex || !categoryMapping?.answerColumnIndex">
+                    Upload Mapping
+                </button>
+            </div>
+        </div>
+    }
+</div>
