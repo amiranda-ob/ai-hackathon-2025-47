@@ -12,24 +12,28 @@
         </mat-card-content>
     </mat-card>
 
-    <div *ngIf="excelFile" class="excel-content">
-        <mat-tab-group (selectedIndexChange)="onSheetChange($event)">
-            <mat-tab *ngFor="let sheet of excelFile?.sheets; let i = index" [label]="sheet.name">
-                <app-excel-viewer
-                    [excelFile]="sheet"
-                    [categoryMapping]="categoryMapping"
-                    (columnSelected)="onColumnSelected($event)">
-                </app-excel-viewer>
-            </mat-tab>
-        </mat-tab-group>
+    @if (excelFile) {
+        <div class="excel-content">
+            <mat-tab-group (selectedIndexChange)="onSheetChange($event)">
+                @for (sheet of excelFile.sheets; track sheet.name; let i = $index) {
+                    <mat-tab [label]="sheet.name">
+                        <app-excel-viewer
+                            [excelFile]="sheet"
+                            [categoryMapping]="categoryMapping"
+                            (columnSelected)="onColumnSelected($event)">
+                        </app-excel-viewer>
+                    </mat-tab>
+                }
+            </mat-tab-group>
 
-        <div class="actions">
-            <button mat-raised-button
-                color="primary"
-                (click)="uploadMapping()"
-                [disabled]="!categoryMapping?.questionColumnIndex || !categoryMapping?.answerColumnIndex">
-                Upload Mapping
-            </button>
+            <div class="actions">
+                <button mat-raised-button
+                    color="primary"
+                    (click)="uploadMapping()"
+                    [disabled]="!categoryMapping?.questionColumnIndex || !categoryMapping?.answerColumnIndex">
+                    Upload Mapping
+                </button>
+            </div>
         </div>
-    </div>
+    }
 </div>

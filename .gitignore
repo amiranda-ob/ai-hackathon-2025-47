@@ -1,48 +1,57 @@
-# Compiled class files
-*.class
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# Log files
-*.log
+# compiled output
+/dist
+/tmp
+/out-tsc
 
-# Package files
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+**/src/info.json
+**/src/environment.js
 
-# Node.js
-node_modules/
-npm-debug.log
-yarn-debug.log
-yarn-error.log
 
-# Angular
-.angular/
-dist/
-tmp/
-out-tsc/
-
-# NX
-.nx/
+# dependencies
+node_modules
 
 # IDEs and editors
-.idea/
+/.idea
 .project
 .classpath
 .c9/
 *.launch
 .settings/
 *.sublime-workspace
+
+# IDE - VSCode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/tailwind.json
 
-# OS specific
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+build-storybook.log
+/typings
+/.nx
+
+# System Files
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
 .angular
+
+# reports
+**/mochawesome-report/
+**/cypress/
+summary.json
+e2e/playwright-utils/reports
+e2e/playwright-utils/failures/files
+ctrf/
+test-results/
