@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 public class ChatService {
 
     private final ChatClient chatClient;
-    private final VectorSearchService vectorSearchService;
+    private final VectorDatasetService vectorSearchService;
     private static final int MAX_RELEVANT_DOCS = 10;
 
     @Autowired
-    public ChatService(ChatClient chatClient, VectorSearchService vectorSearchService) {
+    public ChatService(ChatClient chatClient, VectorDatasetService vectorSearchService) {
         this.chatClient = chatClient;
         this.vectorSearchService = vectorSearchService;
     }
