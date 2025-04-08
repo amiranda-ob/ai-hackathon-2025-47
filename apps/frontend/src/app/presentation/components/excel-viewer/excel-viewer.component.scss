@@ -1,44 +1,80 @@
 .excel-viewer-container {
-  width: 100%;
-  overflow: auto;
-  max-height: calc(100vh - 200px);
+    width: 100%;
+    overflow: auto;
+    max-height: calc(100vh - 200px);
 }
 
 .excel-table {
-  width: 100%;
-  border-collapse: collapse;
-  position: relative;
+    width: 100%;
+    border-collapse: collapse;
+    position: relative;
+
+    // Style for first row
+    tr.mat-mdc-header-row {
+        background-color: #f5f5f5;
+    }
+
+    // Style for first column
+    td.mat-mdc-cell:first-child,
+    th.mat-mdc-header-cell:first-child {
+        background-color: #f5f5f5;
+    }
 }
 
-th.mat-header-cell {
-  background-color: #f5f5f5;
-  padding: 12px;
-  text-align: left;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  position: relative;
-  
-  &:hover {
-    background-color: #e0e0e0;
-  }
-
-  &.question-column {
-    border: 2px solid #ffd700;
-  }
-
-  &.answer-column {
-    border: 2px solid #9370db;
-  }
+th.mat-mdc-header-cell {
+    background-color: #f5f5f5;
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    position: relative;
+    
+    &:hover {
+        background-color: #e0e0e0;
+    }
 }
 
-td.mat-cell {
-  padding: 8px;
-  border: 1px solid #ddd;
-  background-color: white;
+td.mat-mdc-cell {
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+// Column styles
+.question-column {
+    border-left: 2px solid #ffd700;
+    border-right: 2px solid #ffd700;
+    background-color: #fff8d4 !important;
+}
+
+.answer-column {
+    border-left: 2px solid #9370db;
+    border-right: 2px solid #9370db;
+    background-color: #f3f0f8 !important;
 }
 
 .no-file-message {
-  text-align: center;
-  padding: 2rem;
-  color: #666;
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+// Context menu styles
+::ng-deep {
+    .mat-mdc-menu-panel {
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .mat-mdc-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+    }
 } 
